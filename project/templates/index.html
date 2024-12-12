@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Form Submission</h1>
+        <form id="form" method="POST" action="/submit">
+            <label for="text_field">Masukkan Teks:</label><br>
+            <input type="text" id="text_field" name="text_field" required><br><br>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response" class="response"></div>
+    </div>
+    <script>
+        const form = document.getElementById('form');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/submit', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            responseDiv.textContent = result.response;
+        });
+    </script>
+</body>
+</html>
